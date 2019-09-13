@@ -19,3 +19,24 @@ def sendPhoto(url_photo, caption):
   status = bot.sendPhoto(chat_id=chat_id, photo=url_photo, caption = caption, parse_mode=telegram.ParseMode.HTML)
 
   return status
+
+def sendMediaGroup(media, caption):
+  media_to_send = []
+
+  # Append the first element with captions
+  media_to_send.append(telegram.InputMediaPhoto(media[0], caption=caption, parse_mode=None))
+  
+  # And remove from media
+  media.pop(0)
+
+  # For the other -> Append to array
+  for element in media:
+    media_to_send.append(telegram.InputMediaPhoto(element))
+
+  status = bot.sendMediaGroup(chat_id=chat_id, media=media_to_send)
+
+  return status
+
+
+# status_multiple = sendMediaGroup()
+# print(status_multiple)

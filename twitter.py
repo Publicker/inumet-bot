@@ -7,7 +7,7 @@ import inspect
 from config import *
 
 # BOT
-from bot import sendMessage, sendPhoto
+from bot import *
 
 # GET AUTH FOR USE TWITTER API
 auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
@@ -34,25 +34,33 @@ def get_content_tweet(data):
     except:
       content_text = data["text"]
   
+  media = []
+
   # Check if the Tweet has media
   try:
-    url_tweet = data["entities"]["media"][0]["url"]
-    url_image = data["entities"]["media"][0]["media_url_https"]
+    # If has more than one media
+    if len(data["extended_entities"]["media"]) > 1:
+      # For each media
+      for element in data["extended_entities"]["media"]:
+        media.append(element["media_url_https"])
+    else:
+      # If only have one media
+      url_tweet = data["entities"]["media"][0]["url"]
+      media.append(data["entities"]["media"][0]["media_url_https"])
 
     #Remove the link of the Tweet
     content_text = content_text.replace(url_tweet, '')
   except:
+    # Tweet has no media
     url_tweet = f"https://twitter.com/{data['user']['screen_name']}/status/{data['id_str']}" 
     url_image = ""  
 
-  return url_tweet, content_text, url_image
+  return url_tweet, content_text, media
 
 # IDs of Twitter users
 # Inumet: 374503304
 # me_irl_bot: 1009514640844308481
 # tweets = api.user_timeline(id = 374503304, count = 1, include_rts = False, tweet_mode="extended")
-
-# data = parse_tweet(tweets)
 
 # print(json.dumps(data, indent=4, sort_keys=True))
 
@@ -68,16 +76,22 @@ class MyStreamListener(tweepy.StreamListener):
       
       print (f"Data getted at {time.ctime()}")
       try:
-          #if is not retweetd and not a reply
+          # If Tweet is not retweetd and not a reply
           if (not status.retweeted) and ('RT @' not in status.text) and (status.in_reply_to_status_id_str is None):
-            data = parse_tweet(status)
-            url_tweet, content_text, url_image = get_content_tweet(data) 
-            if not url_image:
+            data = parse_tweet(tweets)
+            url_tweet, content_text, media = get_content_tweet(data) 
+            # If not has any media -> Send basic message
+            if not media:
               sendMessage(content_text)
+            # If has more than one media -> Send a group of media
+            elif len(media) > 1:
+              sendMediaGroup(media, content_text)
+            # If has one media -> Send only that media
             else:
-              sendPhoto(url_image, f"{content_text} \n🔗 Link oficial: {url_tweet}")
+              sendPhoto(media[0], f"{content_text} \n🔗 Link oficial: {url_tweet}")
             return(True)
       except BaseException as e:
+        # If fail -> Log error
         print ('Failed on data,',str(e))
         time.sleep(5)
 
