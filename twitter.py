@@ -4,14 +4,14 @@ import time
 import sys
 import inspect
 
-import config as cfg
+from config import *
 
 # BOT
 from bot import sendMessage, sendPhoto
 
 # GET AUTH FOR USE TWITTER API
-auth = tweepy.OAuthHandler(cfg.keys_twitter["api_key"], cfg.keys_twitter["api_secret_key"])
-auth.set_access_token(cfg.keys_twitter["access_token"], cfg.keys_twitter["access_secret"])
+auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
+auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 api = tweepy.API(auth)
 
 def parse_tweet(tweets):

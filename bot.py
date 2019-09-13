@@ -1,8 +1,8 @@
 import telegram
-import config as cfg
+from config import *
 
 # GET AUTH FOR USE TELEGRAM API
-bot = telegram.Bot(token=cfg.keys_telegram["token"])
+bot = telegram.Bot(token=TELEGRAM_KEY)
 
 chat_id = "@inumet_alertas"
 

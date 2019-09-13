@@ -1,12 +1,8 @@
 # API KEYS
 
-keys_twitter = {
-  'api_key': '',
-  'api_secret_key': '',
-  'access_token': '',
-  'access_secret': ''
-}
+TWITTER_API_KEY=''
+TWITTER_API_SECRET_KEY=''
+TWITTER_ACCESS_TOKEN=''
+TWITTER_ACCESS_SECRET=''
 
-keys_telegram = {
-  'token': '',
-}
+TELEGRAM_KEY=''
