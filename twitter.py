@@ -102,13 +102,13 @@ class MyStreamListener(tweepy.StreamListener):
         print ('Failed on data,',str(e))
         time.sleep(5)
 
-myStreamListener = MyStreamListener()
-myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
-myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
-
 # Do server for 'Process exited with status 143' Heroku
 from os import environ
 from flask import Flask
 
 app = Flask(__name__)
 app.run(host='0.0.0.0', port=environ.get('PORT'))
+
+myStreamListener = MyStreamListener()
+myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
+myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
