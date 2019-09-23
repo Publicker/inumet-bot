@@ -3,6 +3,7 @@ import json
 import time
 import sys
 import inspect
+import os
 
 from config import *
 
@@ -10,7 +11,6 @@ from config import *
 from bot import *
 
 if not TWITTER_API_KEY:
-  import os
   TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY', None)
   TWITTER_API_SECRET_KEY = os.environ.get('TWITTER_API_SECRET_KEY', None)
   TWITTER_ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN', None)
@@ -103,12 +103,21 @@ class MyStreamListener(tweepy.StreamListener):
         time.sleep(5)
 
 # Do server for 'Process exited with status 143' Heroku
-from os import environ
 from flask import Flask
 
 app = Flask(__name__)
-app.run(host='0.0.0.0', port=environ.get('PORT'))
 
-myStreamListener = MyStreamListener()
-myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
-myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
+@app.route('/')
+@app.route('/start')
+def start():
+  myStreamListener = MyStreamListener()
+  myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
+  myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
+  
+  message_to_return="Tweepy stream started"
+  return Response('{"message": ' + f"\"{message_to_return}\"" +'}', status=201, mimetype='application/json')
+
+if __name__ == "__main__":
+  # Starting of the development HTTP server
+  # app.debug = True
+  app.run(host='0.0.0.0', port=os.environ.get('PORT'))
