@@ -122,5 +122,5 @@ def start():
 if __name__ == "__main__":
   # Starting of the development HTTP server
   # app.debug = True
-
-  app.run(host='0.0.0.0', port=5000)
+  print('PORT' + environ.get('PORT'))
+  app.run(host='0.0.0.0', port=environ.get('PORT'))
