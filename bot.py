@@ -1,6 +1,11 @@
 import telegram
 from config import *
 
+if not TELEGRAM_KEY:
+  from boto.s3.connection import S3Connection
+  s3 = S3Connection(os.environ['TELEGRAM_KEY'])
+  print(s3)
+
 # GET AUTH FOR USE TELEGRAM API
 bot = telegram.Bot(token=TELEGRAM_KEY)
 
