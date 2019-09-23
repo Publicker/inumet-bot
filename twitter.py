@@ -78,7 +78,7 @@ class MyStreamListener(tweepy.StreamListener):
       try:
           # If Tweet is not retweetd and not a reply
           if (not status.retweeted) and ('RT @' not in status.text) and (status.in_reply_to_status_id_str is None):
-            data = parse_tweet(tweets)
+            data = parse_tweet(status)
             url_tweet, content_text, media = get_content_tweet(data) 
             # If not has any media -> Send basic message
             if not media:
