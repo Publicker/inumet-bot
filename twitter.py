@@ -10,9 +10,11 @@ from config import *
 from bot import *
 
 if not TWITTER_API_KEY:
-  from boto.s3.connection import S3Connection
-  s3 = S3Connection(os.environ['TWITTER_API_KEY'], os.environ['TWITTER_API_SECRET_KEY'], os.environ['TWITTER_ACCESS_TOKEN'], os.environ['TWITTER_ACCESS_SECRET'])
-  print(s3)
+  import os
+  TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY', None)
+  TWITTER_API_SECRET_KEY = os.environ.get('TWITTER_API_SECRET_KEY', None)
+  TWITTER_ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN', None)
+  TWITTER_ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET', None)
 
 # GET AUTH FOR USE TWITTER API
 auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
