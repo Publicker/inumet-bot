@@ -103,21 +103,24 @@ class MyStreamListener(tweepy.StreamListener):
         time.sleep(5)
 
 # Do server for 'Process exited with status 143' Heroku
-from flask import Flask
+from flask import Flask, Response
 
 app = Flask(__name__)
 
 @app.route('/')
 @app.route('/start')
 def start():
+  message_to_return="Nice one 😎!"
+  print(message_to_return)
+  
   myStreamListener = MyStreamListener()
   myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
   myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
-  
-  message_to_return="Tweepy stream started"
-  return Response('{"message": ' + f"\"{message_to_return}\"" +'}', status=201, mimetype='application/json')
+
+  return Response('{"message": ' + f"\"{message_to_return}\"" +'}', status=200, mimetype='application/json')
 
 if __name__ == "__main__":
   # Starting of the development HTTP server
   # app.debug = True
-  app.run(host='0.0.0.0', port=os.environ.get('PORT'))
+
+  app.run(host='0.0.0.0', port=5000)
