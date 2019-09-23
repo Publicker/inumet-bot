@@ -1,1 +1,1 @@
-worker: python twitter.py --log-file -
+web: python twitter.py --log-file -
