@@ -3,7 +3,7 @@ from config import *
 
 if not TELEGRAM_KEY:
   import os
-  TELEGRAM_KEY = os.environ.get('TELEGRAM_KEY', None)
+  TELEGRAM_KEY = os.environ['TELEGRAM_KEY']
 
 # GET AUTH FOR USE TELEGRAM API
 bot = telegram.Bot(token=TELEGRAM_KEY)
