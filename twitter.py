@@ -11,10 +11,10 @@ from config import *
 from bot import *
 
 if not TWITTER_API_KEY:
-  TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY', None)
-  TWITTER_API_SECRET_KEY = os.environ.get('TWITTER_API_SECRET_KEY', None)
-  TWITTER_ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN', None)
-  TWITTER_ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET', None)
+  TWITTER_API_KEY = os.environ['TWITTER_API_KEY']
+  TWITTER_API_SECRET_KEY = os.environ['TWITTER_API_SECRET_KEY']
+  TWITTER_ACCESS_TOKEN = os.environ['TWITTER_ACCESS_TOKEN']
+  TWITTER_ACCESS_SECRET = os.environ['TWITTER_ACCESS_SECRET']
 
 # GET AUTH FOR USE TWITTER API
 auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
@@ -122,5 +122,5 @@ def start():
 if __name__ == "__main__":
   # Starting of the development HTTP server
   # app.debug = True
-  print('PORT' + os.environ.get('PORT'))
-  app.run(host='0.0.0.0', port=os.environ.get('PORT', 5000))
+  print('PORT' + os.environ['PORT'])
+  app.run(host='0.0.0.0', port=os.environ['PORT'])
