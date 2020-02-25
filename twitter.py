@@ -11,10 +11,10 @@ from config import *
 from bot import *
 
 if not TWITTER_API_KEY:
-  TWITTER_API_KEY = os.environ['TWITTER_API_KEY']
-  TWITTER_API_SECRET_KEY = os.environ['TWITTER_API_SECRET_KEY']
-  TWITTER_ACCESS_TOKEN = os.environ['TWITTER_ACCESS_TOKEN']
-  TWITTER_ACCESS_SECRET = os.environ['TWITTER_ACCESS_SECRET']
+  TWITTER_API_KEY = os.environ.get('TWITTER_API_KEY', None)
+  TWITTER_API_SECRET_KEY = os.environ.get('TWITTER_API_SECRET_KEY', None)
+  TWITTER_ACCESS_TOKEN = os.environ.get('TWITTER_ACCESS_TOKEN', None)
+  TWITTER_ACCESS_SECRET = os.environ.get('TWITTER_ACCESS_SECRET', None)
 
 # GET AUTH FOR USE TWITTER API
 auth = tweepy.OAuthHandler(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
@@ -115,7 +115,7 @@ def start():
   
   myStreamListener = MyStreamListener()
   myStream = tweepy.Stream(auth = api.auth, listener=MyStreamListener(), tweet_mode='extended')
-  myStream.filter(follow=['1009514640844308481']) # ID of me_irl_bot
+  myStream.filter(follow=['374503304']) # ID of Inumet
 
   return Response('{"message": ' + f"\"{message_to_return}\"" +'}', status=200, mimetype='application/json')
 
